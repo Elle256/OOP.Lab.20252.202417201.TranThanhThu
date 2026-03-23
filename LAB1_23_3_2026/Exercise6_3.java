@@ -13,10 +13,6 @@ public class Exercise6_3 {
             }
             System.out.println();
         }
-        do{
-    System.out.print("Enter a number:");
-        }
-    while(1);
 }
 }
 
