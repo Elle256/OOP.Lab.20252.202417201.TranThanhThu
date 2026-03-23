@@ -1,0 +1,5 @@
+6.1 ChoosingOption
+
+If the user chooses “Cancel”, the program returns a special value such as JOptionPane.CANCEL_OPTION (or -1). If this case is not handled, the program may behave incorrectly or produce unexpected output.
+To customize the options, we can use JOptionPane.showOptionDialog() and provide a custom array of strings. For example, we can replace the default options with “Yes” and “No” or “I do” and “I don’t”.
+
