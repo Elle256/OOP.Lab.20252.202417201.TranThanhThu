@@ -41,6 +41,6 @@ public class Exercise6_5 {
         double average = (double) sum / n;
         System.out.println("Sorted array: " + Arrays.toString(arr));
         System.out.println("Sum of the elements: " + sum);
-        System.out.println("Average of the elements: " + average);
+        System.out.println("Average of the elements is: " + average);
     }
 }
