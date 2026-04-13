@@ -12,6 +12,22 @@ public class Cart {
         }
     }
 
+    public void addDigitalVideoDisc(DigitalVideoDisc[] discs){
+        for (DigitalVideoDisc disc : discs) {
+        addDigitalVideoDisc(disc); 
+    }
+    }
+    // Method which allows to pass an arbitrary number of arguments for dvd.
+    //public void addDigitalVideoDisc(DigitalVideoDisc... discs) {
+        //for (DigitalVideoDisc disc : discs) {
+            //addDigitalVideoDisc(disc);
+        //}
+    //}
+    public void addDigitalVideoDisc(DigitalVideoDisc disc1, DigitalVideoDisc disc2) {
+        addDigitalVideoDisc(disc1);
+        addDigitalVideoDisc(disc2);
+}
+
 
     public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
         if (realOrdered == 0) {
