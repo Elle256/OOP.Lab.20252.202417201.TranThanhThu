@@ -1,3 +1,6 @@
+package hust.soict.dsai.aims.store;
+import hust.soict.dsai.aims.disc.DigitalVideoDisc;
+
 public class Store {
     private DigitalVideoDisc[] itemsInStore = new DigitalVideoDisc[100];
     private int qtyInStore = 0;
@@ -19,7 +22,6 @@ public class Store {
         if (itemsInStore[i] == dvd) {
             found = true;
 
-            // dịch mảng sang trái
             for (int j = i; j < qtyInStore - 1; j++) {
                 itemsInStore[j] = itemsInStore[j + 1];
             }
