@@ -65,4 +65,52 @@ public class Cart {
 
         return sum;
     }
+
+    public void printCart() {
+    System.out.println("***********************CART***********************");
+    System.out.println("Ordered Items:");
+
+    float totalCost = 0;
+
+    for (int i = 0; i < realOrdered; i++) {
+        System.out.println((i + 1) + ". " + itemsOrdered[i].toString());
+        totalCost += itemsOrdered[i].getCost();
+    }
+
+    System.out.println("Total cost: " + totalCost + " $");
+    System.out.println("***************************************************");
+}
+    public void searchById(int id) {
+    boolean found = false;
+
+    for (int i = 0; i < realOrdered; i++) {
+        if (itemsOrdered[i].getId() == id) {
+            System.out.println("Found: " + itemsOrdered[i]);
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        System.out.println("No matching DVD found.");
+    }
+}
+
+    public void searchByTitle(String title) {
+    boolean found = false;
+
+    for (int i = 0; i < realOrdered; i++) {
+        if (itemsOrdered[i].isMatch(title)) {
+            System.out.println("Found: " + itemsOrdered[i]);
+            found = true;
+        }
+    }
+
+    if (!found) {
+        System.out.println("No matching DVD found.");
+    }
+}
+
+
+
 }
