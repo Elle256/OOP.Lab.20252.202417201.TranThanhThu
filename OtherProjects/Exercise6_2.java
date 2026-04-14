@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class InputFromKeyBoard {
+public class Exercise6_2 {
     public static void main(String[] args){
         Scanner keyboard = new Scanner(System.in);
 
