@@ -1,0 +1,10 @@
+Is JAVA a Pass by Value or a Pass by Reference programming language?  
+Java is strictly pass by value:
+For primitive types: the actual value is copied.
+For objects: the reference is copied, allowing modification of the object but not reassignment of the original reference.
+After the call of swap(jungleDVD, cinderellaDVD) why does the title of these two 
+objects still remain? 
+The swap method only exchanges the local copies of object references. Since Java is pass by value, the original references remain unchanged, so the titles are not swapped.
+After the call of changeTitle(jungleDVD, cinderellaDVD.getTitle()) why is 
+the title of the JungleDVD changed? 
+The method modifies the object through its reference using setTitle(). Since both the parameter and the original variable refer to the same object, the change is reflected outside the method. Reassigning the reference inside the method does not affect the original object.
