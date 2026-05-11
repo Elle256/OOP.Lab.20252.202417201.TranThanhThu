@@ -1,6 +1,6 @@
-package hust.soict.globalict.aims;
+/*package hust.soict.globalict.aims;
 import hust.soict.globalict.aims.cart.Cart;
-import hust.soict.globalict.aims.disc.DigitalVideoDisc;
+import hust.soict.globalict.aims.media.DigitalVideoDisc;
 
 public class Aims {
     public static void main(String[] args){
@@ -23,5 +23,56 @@ public class Aims {
         anOrder.removeDigitalVideoDisc(dvd2);
         System.out.println("Total Cost is: ");
         System.out.println(anOrder.totalCost());
+    }
+}*/
+
+package hust.soict.globalict.aims;
+
+import hust.soict.globalict.aims.cart.Cart;
+import hust.soict.globalict.aims.media.*;
+import hust.soict.globalict.aims.store.Store;
+
+public class Aims {
+
+    public static void main(String[] args) {
+
+        Store store = new Store();
+        Cart cart = new Cart();
+
+        Book book = new Book(
+                1,
+                "Java",
+                "Programming",
+                10f
+        );
+
+        DigitalVideoDisc dvd
+                = new DigitalVideoDisc(
+                2,
+                "Batman",
+                "Action",
+                "Nolan",
+                120,
+                20f
+        );
+
+        CompactDisc cd
+                = new CompactDisc(
+                3,
+                "Hits",
+                "Music",
+                "ABC",
+                15f,
+                "Taylor"
+        );
+
+        store.addMedia(book);
+        store.addMedia(dvd);
+        store.addMedia(cd);
+
+        cart.addMedia(book);
+        cart.addMedia(cd);
+
+        cart.print();
     }
 }
