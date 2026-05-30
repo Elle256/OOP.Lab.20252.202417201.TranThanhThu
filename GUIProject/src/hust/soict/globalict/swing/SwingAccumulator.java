@@ -26,12 +26,11 @@ public class SwingAccumulator extends JFrame {
         cp.add(new JLabel("The Accumulated Sum is: "));
 
         tfOutput = new JTextField(10);
-        tfOutput.setEditable(false); // Không cho phép người dùng sửa ô kết quả
+        tfOutput.setEditable(false); 
         cp.add(tfOutput);
 
         setTitle("Swing Accumulator");
         setSize(350, 120);
-        // Lệnh này giúp tắt hẳn chương trình khi bấm nút X
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setVisible(true);
     }

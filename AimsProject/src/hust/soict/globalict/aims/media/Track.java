@@ -1,51 +1,66 @@
 package hust.soict.globalict.aims.media;
 
-public class Track implements Playable {
+import java.time.Duration;
+import hust.soict.globalict.aims.exception.PlayerException;
 
+public class Track implements Playable {
+    
     private String title;
     private int length;
 
-    //Constructors
-    public Track(){}
+    // Constructor 
     public Track(String title, int length) {
         this.title = title;
         this.length = length;
     }
 
-    //Getters
+    @Override
+    public void play() throws PlayerException {
+        if (this.getLength() > 0) {
+            System.out.println("Playing track: " + this.getTitle());
+            System.out.println("Track length: " + this.getLength());
+        } else {
+            throw new PlayerException("ERROR: Track length is non-positive!");
+        }
+    }
+
+    public String playGUI() throws PlayerException {
+        if (this.getLength() > 0) {
+            return "Playing track: " + this.getTitle() + "\n" + 
+                   "Track length: " + formatDuration(this.getLength());
+        } else {
+            throw new PlayerException("ERROR: Track length is non-positive!");
+        }
+    }
+
+    public String formatDuration(int durationInSeconds) {
+        Duration duration = Duration.ofSeconds(durationInSeconds);
+        return String.format("%02d:%02d", duration.toMinutes(), duration.minusMinutes(duration.toMinutes()).getSeconds());
+    }
+
+    // Getter methods
     public String getTitle() {
         return title;
     }
-
+    
     public int getLength() {
         return length;
     }
 
-    //Implement play()
-    @Override
-    public void play() {
-        if (this.length <= 0) {
-            System.out.println(
-                "Cannot play track: " + this.getTitle());
-            return;
-        }
-        System.out.println("Playing Track: " + this.getTitle());
-        System.out.println("Track length: " + this.getLength());
-    }
-
     @Override
     public boolean equals(Object obj) {
-        if(this == obj) return true;
-        if (obj instanceof Track) {
-            Track other = (Track) obj;
-            return this.title.equals(other.title) && this.length == other.length && this.title !=null;
+        if (this == obj) {  
+            return true;
         }
-
+        if (!(obj instanceof Track)) {
+            return false;
+        }
+        Track otherTrack = (Track) obj;
+        
+        if (this.title != null && this.title.equals(otherTrack.getTitle()) && this.length == otherTrack.getLength()) {
+            return true;
+        }
+        
         return false;
     }
-
-@Override
-public String toString() {
-    return "Track: " + title + " - length: " + length;
-}
 }

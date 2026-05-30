@@ -9,7 +9,6 @@ public class AWTAccumulator extends Frame {
     private TextField tfOutput;
     private int sum = 0; // Accumulated sum, init to 0
 
-    // Constructor to setup the GUI components and event handlers
     public AWTAccumulator() {
         setLayout(new GridLayout(2, 2));
 

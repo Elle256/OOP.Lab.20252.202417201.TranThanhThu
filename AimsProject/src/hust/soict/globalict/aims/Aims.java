@@ -1,9 +1,13 @@
 package hust.soict.globalict.aims;
 
 import hust.soict.globalict.aims.cart.Cart;
+import hust.soict.globalict.aims.exception.PlayerException; 
+import hust.soict.globalict.aims.exception.LimitExceededException; 
 import hust.soict.globalict.aims.media.*;
 import hust.soict.globalict.aims.store.Store;
 
+
+import javax.swing.JOptionPane; 
 import java.util.Scanner;
 
 public class Aims {
@@ -57,12 +61,33 @@ public class Aims {
         System.out.println("--------------------------------");
         System.out.print("Please choose a number: 0-1-2-3-4-5: ");
     }
-
     private static int readInt() {
         try {
             return Integer.parseInt(scanner.nextLine().trim());
         } catch (NumberFormatException e) {
             return -1;
+        }
+    }
+
+    private static int readInt(String prompt) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                return Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid integer format. Please try again.");
+            }
+        }
+    }
+
+    private static float readFloat(String prompt) {
+        while (true) {
+            try {
+                System.out.print(prompt);
+                return Float.parseFloat(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid float format. Please try again.");
+            }
         }
     }
 
@@ -115,11 +140,21 @@ public class Aims {
             int choice = readInt();
             switch (choice) {
                 case 1:
-                    cart.addMedia(media);
+                    try {
+                        cart.addMedia(media);
+                        System.out.println(">>> '" + media.getTitle() + "' has been added to your cart successfully.");
+                    } catch (LimitExceededException e) {
+                        System.err.println(">>> CART ERROR: " + e.getMessage());
+                    }
                     break;
                 case 2:
                     if (media instanceof Playable) {
-                        ((Playable) media).play();
+                        try {
+                            ((Playable) media).play();
+                        } catch (PlayerException e) {
+                            System.err.println("PLAYER ERROR: " + e.getMessage()); 
+                            JOptionPane.showMessageDialog(null, e.getMessage(), "Illegal Media Length", JOptionPane.ERROR_MESSAGE); 
+                        }
                     } else {
                         System.out.println("This media type cannot be played.");
                     }
@@ -135,9 +170,22 @@ public class Aims {
 
     private static void addMediaToCart() {
         String title = readLine("Enter media title to add to cart: ");
-        if (title.isEmpty()) { System.out.println("Title cannot be empty."); return; }
+        if (title.isEmpty()) { 
+            System.out.println("Title cannot be empty."); 
+            return; 
+        }
+    
         Media media = findInStore(title);
-        if (media != null) cart.addMedia(media);
+        if (media != null) {
+            try {
+            // Thử thêm sản phẩm vào giỏ hàng
+                cart.addMedia(media);
+                System.out.println(">>> '" + media.getTitle() + "' has been added to your cart successfully.");
+            } catch (LimitExceededException e) {
+            // Bắt lỗi nếu vượt quá số lượng cho phép của giỏ hàng
+                System.err.println(">>> CART ERROR: " + e.getMessage());
+            }
+        }
     }
 
     private static void playMediaInStore() {
@@ -146,7 +194,12 @@ public class Aims {
         Media media = findInStore(title);
         if (media == null) return;
         if (media instanceof Playable) {
-            ((Playable) media).play();
+            try {
+                ((Playable) media).play();
+            } catch (PlayerException e) {
+                System.err.println("PLAYER ERROR: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Illegal Media Length", JOptionPane.ERROR_MESSAGE); 
+            }
         } else {
             System.out.println("'" + media.getTitle() + "' cannot be played (Books are not playable).");
         }
@@ -176,7 +229,7 @@ public class Aims {
             case 1: {
                 String title    = readLine("Title: ");
                 String category = readLine("Category: ");
-                float  cost     = Float.parseFloat(readLine("Cost: "));
+                float  cost     = readFloat("Cost: ");
                 Book book = new Book(title, category, cost);
                 String author;
                 while (!(author = readLine("Add author (blank to finish): ")).isEmpty()) {
@@ -188,8 +241,8 @@ public class Aims {
             case 2: {
                 String title    = readLine("Title: ");
                 String category = readLine("Category: ");
-                float  cost     = Float.parseFloat(readLine("Cost: "));
-                int    length   = Integer.parseInt(readLine("Length (min): "));
+                float  cost     = readFloat("Cost: "); 
+                int    length   = readInt("Length (min): "); 
                 String director = readLine("Director: ");
                 store.addMedia(new DigitalVideoDisc(title, category, cost, length, director));
                 break;
@@ -197,13 +250,13 @@ public class Aims {
             case 3: {
                 String title    = readLine("Title: ");
                 String category = readLine("Category: ");
-                float  cost     = Float.parseFloat(readLine("Cost: "));
+                float  cost     = readFloat("Cost: "); 
                 String artist   = readLine("Artist: ");
                 String director = readLine("Director: ");
-                CompactDisc cd = new CompactDisc(title, category, director, cost, artist);
+                CompactDisc cd = new CompactDisc(title, category, artist, cost);
                 String trackTitle;
                 while (!(trackTitle = readLine("Add track title (blank to finish): ")).isEmpty()) {
-                    int trackLen = Integer.parseInt(readLine("  Track length: "));
+                    int trackLen = readInt("  Track length: "); 
                     cd.addTrack(new Track(trackTitle, trackLen));
                 }
                 store.addMedia(cd);
@@ -243,7 +296,7 @@ public class Aims {
         System.out.print("Choose: ");
         int f = readInt();
         if (f == 1) {
-            int id = Integer.parseInt(readLine("Enter ID: "));
+            int id = readInt("Enter ID: "); 
             Media m = cart.searchById(id);
             if (m != null) System.out.println(m);
             else System.out.println("Not found.");
@@ -285,7 +338,12 @@ public class Aims {
         Media media = findInCart(title);
         if (media == null) return;
         if (media instanceof Playable) {
-            ((Playable) media).play();
+            try {
+                ((Playable) media).play();
+            } catch (PlayerException e) {
+                System.err.println("PLAYER ERROR: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Illegal Media Length", JOptionPane.ERROR_MESSAGE); 
+            }
         } else {
             System.out.println("'" + media.getTitle() + "' cannot be played.");
         }
@@ -294,7 +352,7 @@ public class Aims {
     private static void placeOrder() {
         System.out.println("\n>>> Order placed successfully! Thank you for shopping at AIMS.");
         System.out.println(">>> Your cart has been cleared.");
-        cart.clear();
+        cart.getItemsOrdered().clear(); 
     }
 
 
@@ -307,23 +365,23 @@ public class Aims {
         b2.addAuthor("Gang of Four");
         store.addMedia(b2);
 
-        DigitalVideoDisc dvd1 = new DigitalVideoDisc("Inception", "Sci-Fi", 9.99f, 148, "Christopher Nolan");
+        // Demo Exception: DVD length âm
+        DigitalVideoDisc dvd1 = new DigitalVideoDisc("Inception", "Sci-Fi", 9.99f, -148, "Christopher Nolan");
         store.addMedia(dvd1);
 
         DigitalVideoDisc dvd2 = new DigitalVideoDisc("The Matrix", "Action", 7.99f, 136, "Wachowski");
         store.addMedia(dvd2);
 
-        CompactDisc cd1 = new CompactDisc("Thriller", "Pop", "Michael Jackson", 12.99f,  "Quincy Jones");
+        CompactDisc cd1 = new CompactDisc("Thriller", "Pop", "Michael Jackson", 12.99f);
         cd1.addTrack(new Track("Wanna Be Startin' Somethin'", 363));
         cd1.addTrack(new Track("Billie Jean", 294));
-        cd1.addTrack(new Track("Beat It", 258));
+        cd1.addTrack(new Track("Beat It", 0)); 
         store.addMedia(cd1);
 
-        CompactDisc cd2 = new CompactDisc("Abbey Road", "Rock", "George Martin", 14.99f, "The Beatles");
+        CompactDisc cd2 = new CompactDisc("Abbey Road", "Rock", "George Martin", 14.99f);
         cd2.addTrack(new Track("Come Together", 259));
         cd2.addTrack(new Track("Something", 182));
         store.addMedia(cd2);
-
     }
 
     public static void main(String[] args) {
@@ -336,8 +394,6 @@ public class Aims {
             System.out.println(m.toString());
             System.out.println("---");
         }
-
-        // Main application loop
         boolean running = true;
         while (running) {
             showMenu();

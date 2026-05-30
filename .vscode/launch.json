@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Aims",
+            "request": "launch",
+            "mainClass": "hust.soict.globalict.aims.Aims",
+            "projectName": "OOP.Lab.20252.202417201.TranThanhThu_a29b9f7e"
+        },
+        {
+            "type": "java",
+            "name": "CartScreen",
+            "request": "launch",
+            "mainClass": "hust.soict.globalict.aims.screen.CartScreen.CartScreen",
+            "projectName": "OOP.Lab.20252.202417201.TranThanhThu_a29b9f7e"
+        },
+        {
+            "type": "java",
+            "name": "Run CartScreen",
+            "request": "launch",
+            "mainClass": "hust.soict.globalict.aims.screen.CartScreen",
+            "vmArgs": "--module-path \"c:/Users/Lenovo/Downloads/openjfx-21.0.11_windows-x64_bin-sdk/javafx-sdk-21.0.11/lib\" --add-modules javafx.controls,javafx.fxml,javafx.swing"
+        },
+        {
+            "type": "java",
+            "name": "Run StoreScreen",
+            "request": "launch",
+            "mainClass": "hust.soict.globalict.aims.screen.StoreScreen",
+            "vmArgs": "--module-path \"c:/Users/Lenovo/Downloads/openjfx-21.0.11_windows-x64_bin-sdk/javafx-sdk-21.0.11/lib\" --add-modules javafx.controls,javafx.fxml,javafx.swing"
+        }
+    ]
+}

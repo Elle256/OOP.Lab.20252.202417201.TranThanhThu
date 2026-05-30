@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class Book extends Media {
     private List<String> authors = new ArrayList<String>();
 
-    //Constructor
     public Book() {
         super();
     }
@@ -26,12 +25,15 @@ public class Book extends Media {
         if (!authors.contains(authorName)) {
             authors.add(authorName);
         }
+        else{
+             System.out.println("This author has already been in the list!");
+        }
     }
     public void removeAuthor(String authorName) {
-    if (authors.contains(authorName)) {
-        authors.remove(authorName);
-    } else {
-        System.out.println("Author not found: " + authorName);
+        if (authors.contains(authorName)) {
+            authors.remove(authorName);
+        } else {
+            System.out.println("Author not found: " + authorName);
         }
     }
     @Override
